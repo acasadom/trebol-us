@@ -1,0 +1,25 @@
+{
+  "name": "trebol-us",
+  "version": "0.1.0",
+  "description": "US rules for Trebol forms: ZIP codes and Social Security numbers",
+  "keywords": [
+    "trebol",
+    "us",
+    "zip",
+    "ssn",
+    "validation"
+  ],
+  "license": "Apache-2.0",
+  "trebol": "us.trb",
+  "files": [
+    "us.trb",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "trebol": ">0.1.2"
+  },
+  "scripts": {
+    "test": "trebol test us.test.trb && trebol check us.trb"
+  }
+}

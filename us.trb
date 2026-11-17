@@ -1,0 +1,43 @@
+Trebol [
+    title: "The United States: the rules of a form for ZIP codes and Social Security numbers"
+    exports: [zip? ssn?]
+]
+
+; A form that imports this package takes these rules after its fields, as it takes email:
+;
+;   field code "ZIP code" required zip
+;
+; Each one is also a function, zip? "94103-1234", for code that has no form.
+
+digit: charset "0123456789"
+
+zip?: func [
+    "True if the text is a ZIP code: five digits, or ZIP+4, as 94103-1234."
+    text [string!]
+] [
+    parse trim copy text [5 digit opt ["-" 4 digit]]
+]
+
+ssn?: func [
+    "True if the text is a Social Security number: 123-45-6789, the dashes optional. No part is all zeros, and the first is not 666 or from 900."
+    text [string!]
+    /local s area
+] [
+    s: trim copy text
+    unless any [parse s [3 digit "-" 2 digit "-" 4 digit]  parse s [9 digit]] [return false]
+    s: replace/all s "-" ""
+    area: to integer! copy/part s 3
+    to logic! all [
+        area <> 0
+        area <> 666
+        area < 900
+        "00" <> copy/part skip s 3 2
+        "0000" <> copy skip s 5
+    ]
+]
+
+; The rules need the UI dialect; a program with no forms still has the functions.
+if value? 'rule [
+    rule 'zip #(en: "Enter a valid ZIP code" es: "Introduce un código ZIP válido") [zip? form value]
+    rule 'ssn #(en: "Enter a valid Social Security number" es: "Introduce un número de la Seguridad Social válido") [ssn? form value]
+]

@@ -1,0 +1,35 @@
+Trebol [
+    title: "The rules of trebol-us"
+    app: none
+]
+
+import %us.trb
+
+"zip"
+[zip? "94103"]
+[zip? "94103-1234"]
+[zip? " 02134 "]
+[not zip? "9410"]
+[not zip? "94103-12"]
+[not zip? "941031234"]
+[not zip? "ABCDE"]
+
+"ssn"
+[ssn? "123-45-6789"]
+[ssn? "123456789"]
+[not ssn? "000-45-6789"]
+[not ssn? "666-45-6789"]
+[not ssn? "900-45-6789"]
+[not ssn? "123-00-6789"]
+[not ssn? "123-45-0000"]
+[not ssn? "12-345-6789"]
+[not ssn? "123-456789"]
+
+"rules of a form"
+[
+    fs: layout/only [field code "ZIP code" zip  field id "SSN" ssn]
+    out: collect [
+        foreach [f v] reduce [fs/1 "94103" fs/1 "941" fs/2 "123-45-6789" fs/2 "666-45-6789"] [ui-input f v  keep validate-face f]
+    ]
+    out = reduce [none "Enter a valid ZIP code" none "Enter a valid Social Security number"]
+]
