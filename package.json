@@ -9,6 +9,14 @@
     "ssn",
     "validation"
   ],
+  "homepage": "https://github.com/acasadom/trebol-us#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acasadom/trebol-us.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acasadom/trebol-us/issues"
+  },
   "license": "Apache-2.0",
   "trebol": "us.trb",
   "files": [
@@ -17,9 +25,15 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "trebol": ">0.1.2"
+    "trebol": ">=0.2.0"
   },
   "scripts": {
     "test": "trebol test us.test.trb && trebol check us.trb"
+  },
+  "devDependencies": {
+    "trebol": "^0.2.0"
+  },
+  "engines": {
+    "node": ">=22.18"
   }
 }

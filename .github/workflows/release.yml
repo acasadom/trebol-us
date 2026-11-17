@@ -1,0 +1,30 @@
+name: release
+
+# A tag v* stages that version on npm: it is checked here, and becomes
+# public only when a maintainer approves it with 2FA
+# (npm stage approve, or on npmjs.com).
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@11.16.0
+      - name: The tag is the package's version
+        run: test "${GITHUB_REF_NAME}" = "v$(node -p 'require("./package.json").version')"
+      - run: npm ci
+      - run: npm test
+      - run: npm stage publish
